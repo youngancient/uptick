@@ -1,0 +1,31 @@
+
+main{
+    padding: 1rem;
+}
+.bdr{
+    border: 1px solid #000;
+}
+.desktop{
+    display: none;
+}
+li{
+    list-style-type: none;
+}
+.search input{
+}
+@media screen and (min-width: 728px) {
+    .mobile{
+        display: none;
+    }
+    main{
+        padding: 1.5rem;
+    }
+    .desktop{
+        display: block;
+    }
+}
+@media screen and (min-width: 998px) {
+    main{
+        padding: 3.5rem;
+    }
+}
