@@ -1,0 +1,19 @@
+.watch {
+  width: 224px;
+  height: 56px;
+  background: #ce5604;
+  border-radius: 8px;
+  color: #fff;
+}
+.in-watch {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.in-watch svg{
+    margin-top: 4px;
+}
+@media screen and (min-width: 728px) {
+}
+@media screen and (min-width: 998px) {
+}

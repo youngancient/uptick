@@ -1,0 +1,10 @@
+
+.checkbox{
+    display: flex;
+    justify-content: space-between;
+}
+.checkbox input{
+    margin-left: 0.5rem;
+    cursor: pointer;
+    accent-color: #ce5604;
+}

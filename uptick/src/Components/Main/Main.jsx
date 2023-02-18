@@ -1,20 +1,71 @@
+import Checkbox from "../Checkbox/Checkbox";
 import "./style.css";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import Movie from "../Movie/Movie";
+import Display from "../Display/Display";
 
+const checkboxes = [
+  { name: "comedy" },
+  { name: "action" },
+  { name: "horror" },
+  { name: "scifi" },
+  { name: "romance" },
+];
+
+const dropVariants ={
+  initial:{
+    opacity: 0,
+    x: '-100vw',
+  },
+  final :{
+    opacity : 1,
+    x : 1,
+    transition:{
+      duration: 1
+    }
+  },
+  exit :{
+    opacity : 0,
+    x: '-100vw',
+    transition:{
+      duration: 0.8
+    }
+  }
+}
+const dropSvgVariants ={
+  initial:{
+    transform: 'rotateZ(0deg)',
+  },
+  final :{
+    transform: 'rotateZ(180deg)',
+    transition:{
+      duration: 1
+    }
+  },
+}
 const Main = () => {
+  const [clickGenre, setClickGenre] = useState(false);
+  const [clickRelease, setClickRelease] = useState(false);
+  const handleGenre =()=>{setClickGenre(!clickGenre)};
+  const handleRelease =()=>{setClickRelease(!clickRelease)};
   return (
-    <main className="bdr">
-      <div className="main bdr">
-        <div className="search">
+    <main className="">
+      <div className="main">
+        <div className="searchbar">
           <div className="dropdown desktop">
             <div className="genre">
-              <div className="drop">
+              <div className="drop" onClick={handleGenre}>
                 <p>Genre</p>
-                <svg
+                <motion.svg
                   width="24"
                   height="24"
                   viewBox="0 0 24 24"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
+                  variants={dropSvgVariants}
+                initial = "initial"
+                animate = {clickGenre ? "final" : ""}
                 >
                   <path
                     d="M19.92 8.95L13.4 15.47C12.63 16.24 11.37 16.24 10.6 15.47L4.08002 8.95"
@@ -24,46 +75,40 @@ const Main = () => {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
-                </svg>
+                </motion.svg>
               </div>
-              <ul>
-                <li>
-                  <span>Comedy</span>
-                  <input type="checkbox" name="Comedy" id="" value="comedy" />
-                </li>
-                <li>
-                  <span>Action</span>
-                  <input type="checkbox" name="Action" id="" value="Action" />
-                </li>
-                <li>
-                  <span>Drama</span>
-                  <input type="checkbox" name="Drama" id="" value="Drama" />
-                </li>
-                <li>
-                  <span>Romance</span>
-                  <input type="checkbox" name="Romance" id="" value="Romance" />
-                </li>
-                <li>
-                  <span>Horror</span>
-                  <input type="checkbox" name="Horror" id="" value="horror" />
-                </li>
-                <li>
-                  <span>Action</span>
-                  <input type="checkbox" name="Action" id="" value="action" />
-                </li>
-              </ul>
+              <AnimatePresence>
+              {clickGenre ? (
+                <motion.ul className=""
+                variants={dropVariants}
+                initial = "initial"
+                animate = "final"
+                key= "genre-popup"
+                exit= "exit"
+                >
+                  {checkboxes.map((checkbox) => (
+                    <Checkbox key={checkbox.name} name={checkbox.name} />
+                  ))}
+                </motion.ul>
+              ) : (
+                <></>
+              )}
+              </AnimatePresence>
             </div>
           </div>
           <div className="dropdown desktop">
-            <div className="rd">
-              <div className="drop">
+            <div className="release-date">
+              <div className="drop" onClick={handleRelease}>
                 <p>Release Date</p>
-                <svg
+                <motion.svg
                   width="24"
                   height="24"
                   viewBox="0 0 24 24"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
+                  variants={dropSvgVariants}
+                initial = "initial"
+                animate = {clickRelease ? "final" : ""}
                 >
                   <path
                     d="M19.92 8.95L13.4 15.47C12.63 16.24 11.37 16.24 10.6 15.47L4.08002 8.95"
@@ -73,16 +118,28 @@ const Main = () => {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
-                </svg>
+                </motion.svg>
               </div>
-              <ul>
-                <li>
-                  <input type="date" name="" id="" />
-                </li>
-              </ul>
+              <AnimatePresence>
+              {clickRelease ? (
+                <motion.ul
+                variants={dropVariants}
+                initial = "initial"
+                animate = "final"
+                key= "release-popup"
+                exit= "exit"
+                >
+                  <li>
+                    <input type="date" name="release" id="" />
+                  </li>
+                </motion.ul>
+              ) : (
+                <></>
+              )}
+              </AnimatePresence>
             </div>
           </div>
-          <div className="search-input">
+          <div className="search-input ml">
             <svg
               width="24"
               height="24"
@@ -140,9 +197,19 @@ const Main = () => {
                 strokeLinejoin="round"
               />
             </svg>
-
             <span>Filter</span>
           </div>
+        </div>
+        <div className="all-display">
+              <div className="group-display">
+                <Movie />
+                <Movie />
+                <Movie />
+                <Movie />
+              </div>
+              <div className="single-display desktop bdr">
+                <Display />
+              </div>
         </div>
       </div>
     </main>
