@@ -19,9 +19,8 @@
   .display .inner-details {
     font-style: normal;
     font-weight: 500;
-    font-size: 20px;
+    font-size: 18px;
     line-height: 155.5%;
-    text-align: center;
     color: #011318;
   }
   .display .movie-genre {
@@ -35,8 +34,8 @@
   .display h3 {
     font-family: "Rubik", sans-serif;
     font-weight: 700;
-    font-size: 40px;
-    line-height: 48px;
+    font-size: 32px;
+    line-height: 38px;
     text-transform: capitalize;
     color: #011318;
   }
@@ -68,5 +67,12 @@
   .display-cont {
     padding: 2rem;
     padding-top: 0;
+  }
+  .display .inner-details{
+    margin-top: 0.5rem;
+  }
+  .display h3 {
+    font-size: 40px;
+    line-height: 48px;
   }
 }

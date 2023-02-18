@@ -41,6 +41,9 @@
   color: #011318;
   max-width: 100%;
 }
+.movie h3:hover{
+  color: #ce5604;
+}
 .movie {
   padding: 1rem;
   border-radius: 8px;
@@ -141,6 +144,7 @@
     display: block;
     border-radius: 0;
     border: 0;
+    max-height: 412px;
   }
 }
 @media screen and (min-width: 998px) {

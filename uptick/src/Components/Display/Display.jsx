@@ -16,7 +16,9 @@ const displayVariant = {
   },
 };
 const Display = ({display}) => {
-  
+  const truncate =(str)=>{
+    return str.length > 300 ? str.substring(0, 300) + "..." : str;
+  }
   return (
     <div className="display-cont">
       {
@@ -34,8 +36,8 @@ const Display = ({display}) => {
           {display.genre}
         </p>
         <h3>{display.title}</h3>
-        <p className="innerdetails">
-          {display.overview}
+        <p className="inner-details">
+          {truncate(display.overview)}
         </p>
         <span>
           <strong>Release Date:</strong>

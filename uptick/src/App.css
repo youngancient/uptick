@@ -1,4 +1,15 @@
-
+.shorten{
+    height: 100vh;
+    overflow-y: hidden;
+  }
+  .loader{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background: #fff;
+  }
 
 @media screen and (min-width: 728px) {
    

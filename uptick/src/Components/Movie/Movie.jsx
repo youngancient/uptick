@@ -42,11 +42,13 @@ const Movie = ({
   const desktopClick = () => {
     setDisplay(data);
     setDisplay({ ...data, ["isClicked"]: true, ["genre"] : genre });
-    console.log(display);
   };
+  const truncate =(str)=>{
+    return str.length > 150 ? str.substring(0, 150) + "..." : str;
+  }
   return (
     <div className="movie-cont" onClick={desktopClick}>
-      <div className="movie">
+      <div className="movie bdr">
         <div className="img">
           <img
             src={`https://image.tmdb.org/t/p/original${imgSrc}`}
@@ -69,7 +71,10 @@ const Movie = ({
               key="details"
             >
               <h3>{title}</h3>
-              <p className="inner-details">{details}</p>
+              <p className="inner-details">{
+                truncate(details)
+              }</p>
+
               <span>
                 <strong>Release Date:</strong>
                 <p>{date}</p>

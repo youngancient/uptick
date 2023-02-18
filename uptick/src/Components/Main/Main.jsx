@@ -46,7 +46,7 @@ const dropSvgVariants = {
   },
 };
 const Main = () => {
-  
+  // for dropdowns
   const [clickGenre, setClickGenre] = useState(false);
   const [clickRelease, setClickRelease] = useState(false);
   const handleGenre = () => {
@@ -55,6 +55,8 @@ const Main = () => {
   const handleRelease = () => {
     setClickRelease(!clickRelease);
   };
+
+  // state for  the display component
   const [display, setDisplay] = useState({
     Title: "",
     date: "",
@@ -65,6 +67,19 @@ const Main = () => {
     details: "",
     isClicked: false,
   });
+
+  // state for search input
+  const [search,setSearch] = useState({
+    q: "",
+    isSearch: false,
+  })
+  const handleSearch =(event)=>{
+    let query = event.target.value.trim();
+    setSearch({
+      q: query,
+      isSearch: true,
+    });
+  }
   return (
     <main className="">
       <div className="main">
@@ -187,6 +202,8 @@ const Main = () => {
               name="input"
               id=""
               placeholder="Search for a movie, genre, tv shows..."
+              onChange={handleSearch}
+              onKeyUp = {handleSearch}
             />
           </div>
           <div className="desktop-btn desktop">
@@ -219,7 +236,7 @@ const Main = () => {
         </div>
         <div className="all-display">
           <div className="group-display">
-            <MovieList display={display} setDisplay={setDisplay}/>
+            <MovieList display={display} setDisplay={setDisplay} search={search}/>
           </div>
           <div className="single-display desktop">
             <Display display={display} />
