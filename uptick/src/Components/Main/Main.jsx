@@ -206,8 +206,10 @@ const Main = () => {
                 <Movie />
                 <Movie />
                 <Movie />
+                <Movie />
+                <Movie />
               </div>
-              <div className="single-display desktop bdr">
+              <div className="single-display desktop">
                 <Display />
               </div>
         </div>
