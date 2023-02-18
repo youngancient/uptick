@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Movie from "../Movie/Movie";
 import Display from "../Display/Display";
+import MovieList from "./MovieList";
 
 const checkboxes = [
   { name: "comedy" },
@@ -13,42 +14,57 @@ const checkboxes = [
   { name: "romance" },
 ];
 
-const dropVariants ={
-  initial:{
+const dropVariants = {
+  initial: {
     opacity: 0,
-    x: '-100vw',
+    x: "-100vw",
   },
-  final :{
-    opacity : 1,
-    x : 1,
-    transition:{
-      duration: 1
-    }
+  final: {
+    opacity: 1,
+    x: 1,
+    transition: {
+      duration: 1,
+    },
   },
-  exit :{
-    opacity : 0,
-    x: '-100vw',
-    transition:{
-      duration: 0.8
-    }
-  }
-}
-const dropSvgVariants ={
-  initial:{
-    transform: 'rotateZ(0deg)',
+  exit: {
+    opacity: 0,
+    x: "-100vw",
+    transition: {
+      duration: 0.8,
+    },
   },
-  final :{
-    transform: 'rotateZ(180deg)',
-    transition:{
-      duration: 1
-    }
+};
+const dropSvgVariants = {
+  initial: {
+    transform: "rotateZ(0deg)",
   },
-}
+  final: {
+    transform: "rotateZ(180deg)",
+    transition: {
+      duration: 1,
+    },
+  },
+};
 const Main = () => {
+  
   const [clickGenre, setClickGenre] = useState(false);
   const [clickRelease, setClickRelease] = useState(false);
-  const handleGenre =()=>{setClickGenre(!clickGenre)};
-  const handleRelease =()=>{setClickRelease(!clickRelease)};
+  const handleGenre = () => {
+    setClickGenre(!clickGenre);
+  };
+  const handleRelease = () => {
+    setClickRelease(!clickRelease);
+  };
+  const [display, setDisplay] = useState({
+    Title: "",
+    date: "",
+    imdbID: "",
+    genre: "",
+    Type: "",
+    Poster: "",
+    details: "",
+    isClicked: false,
+  });
   return (
     <main className="">
       <div className="main">
@@ -64,8 +80,8 @@ const Main = () => {
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   variants={dropSvgVariants}
-                initial = "initial"
-                animate = {clickGenre ? "final" : ""}
+                  initial="initial"
+                  animate={clickGenre ? "final" : ""}
                 >
                   <path
                     d="M19.92 8.95L13.4 15.47C12.63 16.24 11.37 16.24 10.6 15.47L4.08002 8.95"
@@ -78,21 +94,22 @@ const Main = () => {
                 </motion.svg>
               </div>
               <AnimatePresence>
-              {clickGenre ? (
-                <motion.ul className=""
-                variants={dropVariants}
-                initial = "initial"
-                animate = "final"
-                key= "genre-popup"
-                exit= "exit"
-                >
-                  {checkboxes.map((checkbox) => (
-                    <Checkbox key={checkbox.name} name={checkbox.name} />
-                  ))}
-                </motion.ul>
-              ) : (
-                <></>
-              )}
+                {clickGenre ? (
+                  <motion.ul
+                    className=""
+                    variants={dropVariants}
+                    initial="initial"
+                    animate="final"
+                    key="genre-popup"
+                    exit="exit"
+                  >
+                    {checkboxes.map((checkbox) => (
+                      <Checkbox key={checkbox.name} name={checkbox.name} />
+                    ))}
+                  </motion.ul>
+                ) : (
+                  <></>
+                )}
               </AnimatePresence>
             </div>
           </div>
@@ -107,8 +124,8 @@ const Main = () => {
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   variants={dropSvgVariants}
-                initial = "initial"
-                animate = {clickRelease ? "final" : ""}
+                  initial="initial"
+                  animate={clickRelease ? "final" : ""}
                 >
                   <path
                     d="M19.92 8.95L13.4 15.47C12.63 16.24 11.37 16.24 10.6 15.47L4.08002 8.95"
@@ -121,21 +138,21 @@ const Main = () => {
                 </motion.svg>
               </div>
               <AnimatePresence>
-              {clickRelease ? (
-                <motion.ul
-                variants={dropVariants}
-                initial = "initial"
-                animate = "final"
-                key= "release-popup"
-                exit= "exit"
-                >
-                  <li>
-                    <input type="date" name="release" id="" />
-                  </li>
-                </motion.ul>
-              ) : (
-                <></>
-              )}
+                {clickRelease ? (
+                  <motion.ul
+                    variants={dropVariants}
+                    initial="initial"
+                    animate="final"
+                    key="release-popup"
+                    exit="exit"
+                  >
+                    <li>
+                      <input type="date" name="release" id="" />
+                    </li>
+                  </motion.ul>
+                ) : (
+                  <></>
+                )}
               </AnimatePresence>
             </div>
           </div>
@@ -201,17 +218,12 @@ const Main = () => {
           </div>
         </div>
         <div className="all-display">
-              <div className="group-display">
-                <Movie />
-                <Movie />
-                <Movie />
-                <Movie />
-                <Movie />
-                <Movie />
-              </div>
-              <div className="single-display desktop">
-                <Display />
-              </div>
+          <div className="group-display">
+            <MovieList display={display} setDisplay={setDisplay}/>
+          </div>
+          <div className="single-display desktop">
+            <Display display={display} />
+          </div>
         </div>
       </div>
     </main>

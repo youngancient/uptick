@@ -13,7 +13,13 @@
 .in-watch svg{
     margin-top: 4px;
 }
+.watch p{
+    margin-left: 4px;
+}
 @media screen and (min-width: 728px) {
+    .in-watch svg{
+        margin-top: 0.5rem;
+    }
 }
 @media screen and (min-width: 998px) {
     .watch{

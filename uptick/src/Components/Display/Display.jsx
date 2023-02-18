@@ -1,34 +1,54 @@
 import "./style.css";
 import { motion } from "framer-motion";
 import Watch from "../Watchbtn/Watchbtn";
-const Display = () => {
+
+const displayVariant = {
+  initial: {
+    x: "100vw",
+    opacity: 0,
+  },
+  final: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      duration: 2,
+    },
+  },
+};
+const Display = ({display}) => {
+  
   return (
     <div className="display-cont">
-      <div className="display">
+      {
+        display.isClicked?
+        <motion.div
+        className="display"
+        variants={displayVariant}
+        initial="initial"
+        animate="final"
+      >
         <div className="img">
-          <img src="/assets/panther.svg" alt="panther" className="" />
+          <img src={`https://image.tmdb.org/t/p/original${display.poster_path}`} alt={display.title} className="" />
         </div>
         <p className="movie-genre">
-          Action, Superhero, Science fiction, Adventure, Fantasy.
+          {display.genre}
         </p>
-        <h3>Black Panther</h3>
+        <h3>{display.title}</h3>
         <p className="innerdetails">
-          Queen Ramonda, Shuri, M'Baku, Okoye and the Dora Milaje fight to
-          protect their nation from intervening world powers in the wake of King
-          T'Challa's death. As the Wakandans strive to embrace their next
-          chapter, the heroes must band together with the help of War Dog Nakia
-          and Everett Ross and forge a new path for the kingdom of Wakanda.
+          {display.overview}
         </p>
         <span>
           <strong>Release Date:</strong>
-          <p>Feb 24, 2021</p>
+          <p>{display.release_date}</p>
         </span>
         <div className="watch-cont">
-              <a href="#" className="">
-                <Watch />
-              </a>
-            </div>
-      </div>
+          <a href="#" className="">
+            <Watch />
+          </a>
+        </div>
+      </motion.div>
+      :<></>
+      }
     </div>
   );
 };
