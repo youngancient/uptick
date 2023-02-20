@@ -2,7 +2,7 @@ import "./style.css";
 import { motion } from "framer-motion";
 import Watch from "../Watchbtn/Watchbtn";
 
-const displayVariant = {
+const displayVariants = {
   initial: {
     x: "100vw",
     opacity: 0,
@@ -11,10 +11,24 @@ const displayVariant = {
     x: 0,
     opacity: 1,
     transition: {
-      duration: 2,
+      duration: 1.5,
+      staggerChildren: 0.2,
+      delayChildren: 0.3,
     },
   },
 };
+const eachVariants ={
+  initial:{
+    y : -50,
+  },
+  final:{
+    y: 0,
+    transition: {
+      delay: 1.5,
+      duration: 1,
+    },
+  }
+}
 const Display = ({display}) => {
   const truncate =(str)=>{
     return str.length > 300 ? str.substring(0, 300) + "..." : str;
@@ -25,7 +39,7 @@ const Display = ({display}) => {
         display.isClicked?
         <motion.div
         className="display"
-        variants={displayVariant}
+        variants={displayVariants}
         initial="initial"
         animate="final"
       >
@@ -35,19 +49,35 @@ const Display = ({display}) => {
         <p className="movie-genre">
           {display.genre}
         </p>
-        <h3>{display.title}</h3>
-        <p className="inner-details">
+        <motion.h3
+        variants={eachVariants}
+        initial="initial"
+        animate="final"
+        >{display.title}</motion.h3>
+        <motion.p className="inner-details"
+        variants={eachVariants}
+        initial="initial"
+        animate="final"
+        >
           {truncate(display.overview)}
-        </p>
-        <span>
+        </motion.p>
+        <motion.span
+        variants={eachVariants}
+        initial="initial"
+        animate="final"
+        >
           <strong>Release Date:</strong>
           <p>{display.release_date}</p>
-        </span>
-        <div className="watch-cont">
+        </motion.span>
+        <motion.div className="watch-cont"
+        variants={eachVariants}
+        initial="initial"
+        animate="final"
+        >
           <a href="#" className="">
             <Watch />
           </a>
-        </div>
+        </motion.div>
       </motion.div>
       :<></>
       }

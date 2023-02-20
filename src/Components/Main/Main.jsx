@@ -75,10 +75,17 @@ const Main = () => {
   })
   const handleSearch =(event)=>{
     let query = event.target.value.trim();
-    setSearch({
-      q: query,
-      isSearch: true,
-    });
+    if(query == ""){
+      setSearch({
+        q: query,
+        isSearch: false,
+      });
+    }else{
+      setSearch({
+        q: query,
+        isSearch: true,
+      });
+    }
   }
   return (
     <main className="">

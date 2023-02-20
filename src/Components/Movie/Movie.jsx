@@ -43,22 +43,25 @@ const Movie = ({
     setDisplay(data);
     setDisplay({ ...data, ["isClicked"]: true, ["genre"] : genre });
   };
-  const truncate =(str)=>{
-    return str.length > 150 ? str.substring(0, 150) + "..." : str;
+  const truncate =(str, num)=>{
+    return str.length > num ? str.substring(0, num) + "..." : str;
   }
+  // const truncateTitle =(str)=>{
+  //   return str.length > 40 ? str.substring(0, 40) + "..." : str;
+  // }
   return (
     <div className="movie-cont" onClick={desktopClick}>
       <div className="movie bdr">
         <div className="img">
           <img
             src={`https://image.tmdb.org/t/p/original${imgSrc}`}
-            alt={alt}
+            alt={truncate(alt,40)}
             className=""
           />
         </div>
         {/* <p className="movie-genre">{genre_ids.forEach((id) => genres[id].name)}</p> */}
         <p className="movie-genre">{
-            genre
+            genre == "" ? "No data" : truncate(genre,50)
         }</p>
         <AnimatePresence>
           {isClickedMovie ? (
@@ -72,7 +75,7 @@ const Movie = ({
             >
               <h3>{title}</h3>
               <p className="inner-details">{
-                truncate(details)
+                truncate(details, 150)
               }</p>
 
               <span>
@@ -87,10 +90,10 @@ const Movie = ({
             </motion.div>
           ) : (
             <>
-              <h3 className="">{title}</h3>
+              <h3 className="">{truncate(title,40)}</h3>
               <span>
                 <strong>Release Date:</strong>
-                <p> {date}</p>
+                <p> {date == ""? "No data" : date}</p>
               </span>
             </>
           )}

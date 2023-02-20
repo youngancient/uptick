@@ -27,6 +27,10 @@ const genres = {
 };
 const MovieList = ({ display, setDisplay, search }) => {
   const [movies, setMovies] = useState([]);
+  function generateRandomLetter() {
+    const alphabet = "abcdefghijklmnopqrstuvwxyz"
+    return alphabet[Math.floor(Math.random() * alphabet.length)]
+  }
   if(search.isSearch){
     useEffect(() => {
       axios
@@ -44,7 +48,7 @@ const MovieList = ({ display, setDisplay, search }) => {
     useEffect(() => {
       axios
         .get(
-          "https://api.themoviedb.org/3/search/movie?api_key=bdb240741c8f4165f5d6af9277692339&query=b"
+          `https://api.themoviedb.org/3/search/movie?api_key=bdb240741c8f4165f5d6af9277692339&query=${generateRandomLetter()}`
         )
         .then((res) => {
           setMovies(res.data.results);
@@ -52,7 +56,7 @@ const MovieList = ({ display, setDisplay, search }) => {
         .catch((err) => {
           console.log(err);
         });
-    }, []);
+    }, [search.q]);
   }
 
   const handleGenre = (genre_ids) => {
