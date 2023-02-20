@@ -26,6 +26,13 @@ const emptyVariants = {
         duration: 0.25,
       },
   },
+  exitr:{
+    x: "100vw",
+    opacity: 0,
+    transition: {
+        duration: 0.25,
+      },
+  },
   exitl:{
     x: "-100vw",
     opacity: 0,

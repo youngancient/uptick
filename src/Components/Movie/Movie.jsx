@@ -53,6 +53,7 @@ const Movie = ({
   const desktopClick = () => {
     setDisplay(data);
     setDisplay({ ...data, ["isClicked"]: true, ["genre"]: genre });
+    console.log(genre_ids);
   };
   const truncate = (str, num) => {
     return str.length > num ? str.substring(0, num) + "..." : str;
@@ -71,6 +72,7 @@ const Movie = ({
             src={`https://image.tmdb.org/t/p/original${imgSrc}`}
             alt={truncate(alt, 40)}
             className=""
+            loading="lazy"
           />
         </div>
         <p className="movie-genre">

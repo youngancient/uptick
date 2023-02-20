@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Display from "../Display/Display";
 import MovieList from "./MovieList";
+import Date from "./Date";
 
 const checkBoxes = [
   { id: 28, name: "Action" },
@@ -129,6 +130,8 @@ const Main = () => {
   const [mClickGenre, mSetClickGenre] = useState(false);
   const [mClickRelease, mSetClickRelease] = useState(false);
   const [clickFilter, setFilter] = useState(false);
+  const [filterGenre, setFilterGenre] = useState([]);
+  const [filterDate, setFilterDate] = useState();
 
   const handleGenre = () => {
     setClickGenre(!clickGenre);
@@ -192,6 +195,8 @@ const Main = () => {
       if (slideInRef.current != undefined) {
         if (!slideInRef.current.contains(e.target)) {
           setFilter(false);
+          mSetClickGenre(false);
+          mSetClickRelease(false);
         }
       }
     };
@@ -241,6 +246,8 @@ const Main = () => {
                         key={checkbox.id}
                         name={checkbox.name}
                         value={checkbox.id}
+                        setFilterGenre ={setFilterGenre}
+                        filterGenre = {filterGenre}
                       />
                     ))}
                   </motion.ul>
@@ -263,7 +270,7 @@ const Main = () => {
                   variants={dropSvgVariants}
                   initial="initial"
                   animate={clickRelease ? "final" : ""}
-                  ref={dateRef}
+                  
                 >
                   <path
                     d="M19.92 8.95L13.4 15.47C12.63 16.24 11.37 16.24 10.6 15.47L4.08002 8.95"
@@ -283,9 +290,10 @@ const Main = () => {
                     animate="final"
                     key="release-popup"
                     exit="exit"
+                    ref={dateRef}
                   >
                     <li>
-                      <input type="date" name="release" id="" />
+                      <Date setFilterDate={setFilterDate} filterDate={filterDate} />
                     </li>
                   </motion.ul>
                 ) : (
@@ -410,7 +418,7 @@ const Main = () => {
                         >
                           <ul>
                             <li>
-                              <input type="date" name="release" id="" />
+                            <Date />
                             </li>
                           </ul>
                         </motion.div>
@@ -458,6 +466,8 @@ const Main = () => {
                                 key={checkbox.id}
                                 name={checkbox.name}
                                 value={checkbox.id}
+                                setFilterGenre ={setFilterGenre}
+                                filterGenre = {filterGenre}
                               />
                             ))}
                           </ul>

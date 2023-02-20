@@ -94,7 +94,8 @@ const MovieList = ({ display, setDisplay, search }) => {
           data={movie}
           display={display}
         />
-      ))}
+      ))
+      }
       </AnimatePresence>
     </>
   );

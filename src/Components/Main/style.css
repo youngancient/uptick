@@ -78,7 +78,7 @@ li {
   margin-top: 2rem;
 }
 .popup {
-  position: absolute;
+  position: fixed;
   width: 100vw;
   height: 100vh;
   top: 0;
@@ -88,6 +88,7 @@ li {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 5;
 }
 .popup .slidein{
   background: #023849;
@@ -95,12 +96,13 @@ li {
   border-radius: 12px;
   padding: 2rem;
   color: #fff;
-  z-index: 5;
+  z-index: 10;
 }
 .m-dropdown{
   display: flex;
   margin-top: 1rem;
-  width: fit-content;
+  width: 60%;
+  justify-content: space-between;
 }
 .m-dropdown svg{
   margin-left: 4px;
@@ -117,6 +119,11 @@ overflow-y: scroll;
   padding: 1rem;
   padding-top: 0;
 }
+/* trying to correct the animation btw search icon and movies showing up */
+/* .mvlist{
+  display: flex;
+  flex-direction: column;
+} */
 @media screen and (min-width: 728px) {
   main {
     margin-top: 0;
