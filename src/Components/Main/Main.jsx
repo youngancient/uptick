@@ -1,17 +1,30 @@
 import Checkbox from "../Checkbox/Checkbox";
 import "./style.css";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import Movie from "../Movie/Movie";
 import Display from "../Display/Display";
 import MovieList from "./MovieList";
 
-const checkboxes = [
-  { name: "comedy" },
-  { name: "action" },
-  { name: "horror" },
-  { name: "scifi" },
-  { name: "romance" },
+const checkBoxes = [
+  { id: 28, name: "Action" },
+  { id: 12, name: "Adventure" },
+  { id: 16, name: "Animation" },
+  { id: 35, name: "Comedy" },
+  { id: 80, name: "Crime" },
+  { id: 99, name: "Documentary" },
+  { id: 18, name: "Drama" },
+  { id: 10751, name: "Family" },
+  { id: 14, name: "Fantasy" },
+  { id: 36, name: "History" },
+  { id: 27, name: "Horror" },
+  { id: 10402, name: "Music" },
+  { id: 9648, name: "Mystery" },
+  { id: 10749, name: "Romance" },
+  { id: 878, name: "SciFi" },
+  { id: 10770, name: "TV Movie" },
+  { id: 53, name: "Thriller" },
+  { id: 10752, name: "War" },
+  { id: 37, name: "Western" },
 ];
 
 const dropVariants = {
@@ -34,6 +47,43 @@ const dropVariants = {
     },
   },
 };
+const popUpVariants = {
+  initial: {
+    opacity: 0,
+  },
+  final: {
+    opacity: 1,
+    transition: {
+      duration: 0.75,
+      staggerChildren: 0.2,
+      delayChildren: 0.3,
+    },
+  },
+  exit: {
+    opacity: 0,
+    transition: {
+      duration: 0.75,
+    },
+  },
+};
+const slideInVariants = {
+  initial: {
+    y: "100vh",
+  },
+  final: {
+    y: 0,
+    transition: {
+      duration: 1,
+    },
+  },
+  exit: {
+    opacity: 0,
+    y: "100vh",
+    transition: {
+      duration: 1,
+    },
+  },
+};
 const dropSvgVariants = {
   initial: {
     transform: "rotateZ(0deg)",
@@ -44,16 +94,52 @@ const dropSvgVariants = {
       duration: 1,
     },
   },
+  mfinal: {
+    transform: "rotateZ(180deg)",
+    transition: {
+      duration: 0.5,
+    },
+  },
+};
+const actualVariants = {
+  initial: {
+    height: 0,
+    opacity: 0,
+  },
+  final: {
+    height: "auto",
+    opacity: 1,
+    transition: {
+      duration: 0.75,
+    },
+  },
+  exit: {
+    height: 0,
+    opacity: 0,
+    transition: {
+      duration: 0.75,
+    },
+  },
 };
 const Main = () => {
   // for dropdowns
   const [clickGenre, setClickGenre] = useState(false);
   const [clickRelease, setClickRelease] = useState(false);
+  // for mobile
+  const [mClickGenre, mSetClickGenre] = useState(false);
+  const [mClickRelease, mSetClickRelease] = useState(false);
+  const [clickFilter, setFilter] = useState(false);
+
   const handleGenre = () => {
     setClickGenre(!clickGenre);
+    mSetClickGenre(!mClickGenre);
   };
   const handleRelease = () => {
     setClickRelease(!clickRelease);
+    mSetClickRelease(!mClickRelease);
+  };
+  const handleFilter = () => {
+    setFilter(!clickFilter);
   };
 
   // state for  the display component
@@ -69,24 +155,48 @@ const Main = () => {
   });
 
   // state for search input
-  const [search,setSearch] = useState({
+  const [search, setSearch] = useState({
     q: "",
     isSearch: false,
-  })
-  const handleSearch =(event)=>{
+  });
+  const handleSearch = (event) => {
     let query = event.target.value.trim();
-    if(query == ""){
+    if (query == "") {
       setSearch({
         q: query,
         isSearch: false,
       });
-    }else{
+    } else {
       setSearch({
         q: query,
         isSearch: true,
       });
     }
-  }
+  };
+
+  let genreRef = useRef();
+  let dateRef = useRef();
+  let slideInRef = useRef();
+  useEffect(() => {
+    let handler = (e) => {
+      if (genreRef.current != undefined) {
+        if (!genreRef.current.contains(e.target)) {
+          setClickGenre(false);
+        }
+      }
+      if (dateRef.current != undefined) {
+        if (!dateRef.current.contains(e.target)) {
+          setClickRelease(false);
+        }
+      }
+      if (slideInRef.current != undefined) {
+        if (!slideInRef.current.contains(e.target)) {
+          setFilter(false);
+        }
+      }
+    };
+    document.addEventListener("mousedown", handler);
+  });
   return (
     <main className="">
       <div className="main">
@@ -124,9 +234,14 @@ const Main = () => {
                     animate="final"
                     key="genre-popup"
                     exit="exit"
+                    ref={genreRef}
                   >
-                    {checkboxes.map((checkbox) => (
-                      <Checkbox key={checkbox.name} name={checkbox.name} />
+                    {checkBoxes.map((checkbox) => (
+                      <Checkbox
+                        key={checkbox.id}
+                        name={checkbox.name}
+                        value={checkbox.id}
+                      />
                     ))}
                   </motion.ul>
                 ) : (
@@ -148,6 +263,7 @@ const Main = () => {
                   variants={dropSvgVariants}
                   initial="initial"
                   animate={clickRelease ? "final" : ""}
+                  ref={dateRef}
                 >
                   <path
                     d="M19.92 8.95L13.4 15.47C12.63 16.24 11.37 16.24 10.6 15.47L4.08002 8.95"
@@ -210,13 +326,13 @@ const Main = () => {
               id=""
               placeholder="Search for a movie, genre, tv shows..."
               onChange={handleSearch}
-              onKeyUp = {handleSearch}
+              onKeyUp={handleSearch}
             />
           </div>
           <div className="desktop-btn desktop">
             <button type="submit">Search</button>
           </div>
-          <div className="mobile-btn mobile">
+          <div className="mobile-btn mobile" onClick={handleFilter}>
             <svg
               width="16"
               height="16"
@@ -240,10 +356,131 @@ const Main = () => {
             </svg>
             <span>Filter</span>
           </div>
+          <AnimatePresence>
+            {clickFilter ? (
+              <motion.div
+                className="popup mobile"
+                variants={popUpVariants}
+                initial="initial"
+                animate="final"
+                key="mobile-popup"
+                exit="exit"
+              >
+                <motion.div
+                  className="slidein"
+                  ref={slideInRef}
+                  variants={slideInVariants}
+                  initial="initial"
+                  animate="final"
+                  key="mobile-slidein"
+                  exit="exit"
+                >
+                  <div className="date">
+                    <div className="m-dropdown" onClick={handleRelease}>
+                      <p>Release Date</p>
+                      <motion.svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        variants={dropSvgVariants}
+                        initial="initial"
+                        animate={mClickRelease ? "mfinal" : ""}
+                      >
+                        <path
+                          d="M19.92 8.95L13.4 15.47C12.63 16.24 11.37 16.24 10.6 15.47L4.08002 8.95"
+                          stroke="#fff"
+                          strokeWidth="1.5"
+                          strokeMiterlimit="10"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </motion.svg>
+                    </div>
+                    <AnimatePresence>
+                      {mClickRelease ? (
+                        <motion.div
+                          className="m-actual"
+                          variants={actualVariants}
+                          initial="initial"
+                          animate="final"
+                          key="mobile-date-dropdown"
+                          exit="exit"
+                        >
+                          <ul>
+                            <li>
+                              <input type="date" name="release" id="" />
+                            </li>
+                          </ul>
+                        </motion.div>
+                      ) : (
+                        <></>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                  <div className="genre">
+                    <div className="m-dropdown" onClick={handleGenre}>
+                      <p>Genre</p>
+                      <motion.svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        variants={dropSvgVariants}
+                        initial="initial"
+                        animate={mClickGenre ? "mfinal" : ""}
+                      >
+                        <path
+                          d="M19.92 8.95L13.4 15.47C12.63 16.24 11.37 16.24 10.6 15.47L4.08002 8.95"
+                          stroke="#fff"
+                          strokeWidth="1.5"
+                          strokeMiterlimit="10"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </motion.svg>
+                    </div>
+                    <AnimatePresence>
+                      {mClickGenre ? (
+                        <motion.div
+                          className="m-actual"
+                          variants={actualVariants}
+                          initial="initial"
+                          animate="final"
+                          key="mobile-genre-dropdown"
+                          exit="exit"
+                        >
+                          <ul>
+                            {checkBoxes.map((checkbox) => (
+                              <Checkbox
+                                key={checkbox.id}
+                                name={checkbox.name}
+                                value={checkbox.id}
+                              />
+                            ))}
+                          </ul>
+                        </motion.div>
+                      ) : (
+                        <></>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </motion.div>
+              </motion.div>
+            ) : (
+              <></>
+            )}
+          </AnimatePresence>
         </div>
         <div className="all-display">
           <div className="group-display">
-            <MovieList display={display} setDisplay={setDisplay} search={search}/>
+            <MovieList
+              display={display}
+              setDisplay={setDisplay}
+              search={search}
+            />
           </div>
           <div className="single-display desktop">
             <Display display={display} />

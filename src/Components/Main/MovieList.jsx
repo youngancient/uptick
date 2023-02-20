@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import Movie from "../Movie/Movie";
 import axios from "axios";
+import Empty from "../Empty/Empty";
+import { AnimatePresence } from "framer-motion";
 
 // image format
 // https://image.tmdb.org/t/p/original/sv1xJUazXeYqALzczSZ3O6nkH75.jpg
@@ -72,12 +74,11 @@ const MovieList = ({ display, setDisplay, search }) => {
   };
   return (
     <>
+    <AnimatePresence>
       {
       movies.length == 0
       ?
-        <>
-        Empty search
-        </>
+        <Empty q={search.q} key="empty" />
       :
         movies.map((movie) => (
         <Movie
@@ -94,6 +95,7 @@ const MovieList = ({ display, setDisplay, search }) => {
           display={display}
         />
       ))}
+      </AnimatePresence>
     </>
   );
 };

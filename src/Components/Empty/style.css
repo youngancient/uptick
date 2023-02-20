@@ -1,0 +1,30 @@
+
+.empty{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #011318;
+    overflow: hidden;
+}
+.empty{
+    margin-top: 4rem;
+}
+.empty svg{
+    width: 50%;
+    fill: #ce5604;
+}
+.empty p{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+@media screen and (min-width: 728px) {
+  .empty{
+    margin-top: 0;
+  }
+}
+@media screen and (min-width: 998px) {
+    
+}
