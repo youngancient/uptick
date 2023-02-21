@@ -66,7 +66,7 @@ const Movie = ({
       initial="initial"
       animate="final"
     >
-      <div className="movie bdr">
+      <div className="movie">
         <div className="img">
           <img
             src={`https://image.tmdb.org/t/p/original${imgSrc}`}
