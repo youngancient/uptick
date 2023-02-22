@@ -76,7 +76,7 @@ const MovieList = ({ display, setDisplay, search }) => {
     <>
     <AnimatePresence>
       {
-      movies.length == 0
+      movies.length == 0 && search.isSearch
       ?
         <Empty q={search.q} key="empty" />
       :

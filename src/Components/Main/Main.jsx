@@ -130,8 +130,12 @@ const Main = () => {
   const [mClickGenre, mSetClickGenre] = useState(false);
   const [mClickRelease, mSetClickRelease] = useState(false);
   const [clickFilter, setFilter] = useState(false);
+  
+
   const [filterGenre, setFilterGenre] = useState([]);
   const [filterDate, setFilterDate] = useState();
+  const [isFilterGenre, setIsFilterGenre] = useState(false);
+  const [isFilterDate, setIsFilterDate] = useState(false);
 
   const handleGenre = () => {
     setClickGenre(!clickGenre);
@@ -468,6 +472,8 @@ const Main = () => {
                                 value={checkbox.id}
                                 setFilterGenre ={setFilterGenre}
                                 filterGenre = {filterGenre}
+                                isFilterGenre = {isFilterGenre}
+                                setIsFilterGenre = {setIsFilterGenre}
                               />
                             ))}
                           </ul>
