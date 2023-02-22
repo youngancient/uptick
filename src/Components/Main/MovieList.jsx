@@ -27,7 +27,7 @@ const genres = {
   10752: { name: "War" },
   37: { name: "Western" },
 };
-const MovieList = ({ display, setDisplay, search }) => {
+const MovieList = ({ display, setDisplay, search, isFilterDate,isFilterGenre,filterDate,filterGenre }) => {
   const [movies, setMovies] = useState([]);
   function generateRandomLetter() {
     const alphabet = "abcdefghijklmnopqrstuvwxyz"
@@ -60,6 +60,28 @@ const MovieList = ({ display, setDisplay, search }) => {
         });
     }, [search.q]);
   }
+
+  // this handles filtering via checkboxes, it gets the selected checkboxes in an array filterGenre
+  // it filters the movies-statebased on the checkboxes.
+  // backupmovie state is used to back up the movie state
+  
+  useEffect(()=>{
+    if(filterGenre.length !== 0){
+      const filterMovies = movies.filter((item) =>{
+        return filterGenre.every(elem => item.genre_ids.includes(elem) === true)
+      })
+      setMovies(filterMovies);
+    }
+  },[filterGenre])
+
+  useEffect(()=>{
+    if(filterDate !== undefined){
+      const filterMovies = movies.filter((item) =>{
+        return item.release_date == filterDate;
+      });
+      setMovies(filterMovies);
+    }
+  },[filterDate])
 
   const handleGenre = (genre_ids) => {
     let li = "";
@@ -95,6 +117,7 @@ const MovieList = ({ display, setDisplay, search }) => {
           display={display}
         />
       ))
+      
       }
       </AnimatePresence>
     </>

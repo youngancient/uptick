@@ -53,7 +53,7 @@ const Movie = ({
   const desktopClick = () => {
     setDisplay(data);
     setDisplay({ ...data, ["isClicked"]: true, ["genre"]: genre });
-    console.log(genre_ids);
+    // console.log(genre_ids);
   };
   const truncate = (str, num) => {
     return str.length > num ? str.substring(0, num) + "..." : str;

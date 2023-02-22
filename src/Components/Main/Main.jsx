@@ -201,6 +201,7 @@ const Main = () => {
           setFilter(false);
           mSetClickGenre(false);
           mSetClickRelease(false);
+          // setFilterGenre([]);
         }
       }
     };
@@ -422,7 +423,7 @@ const Main = () => {
                         >
                           <ul>
                             <li>
-                            <Date />
+                            <Date filterDate={filterDate} setFilterDate={setFilterDate} />
                             </li>
                           </ul>
                         </motion.div>
@@ -496,6 +497,10 @@ const Main = () => {
               display={display}
               setDisplay={setDisplay}
               search={search}
+              isFilterGenre={isFilterGenre}
+              isFilterDate={isFilterDate}
+              filterGenre={filterGenre}
+              filterDate={filterDate}
             />
           </div>
           <div className="single-display desktop">
