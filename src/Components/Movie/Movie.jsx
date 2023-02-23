@@ -75,6 +75,7 @@ const Movie = ({
             loading="lazy"
           />
         </div>
+        <div className="pad">
         <p className="movie-genre">
           {genre == "" ? "No Genre" : truncate(genre, 50)}
         </p>
@@ -88,7 +89,7 @@ const Movie = ({
               exit="exit"
               key="details"
             >
-              <h3>{title}</h3>
+              <h3 className="">{title}</h3>
               <p className="inner-details">{truncate(details, 150)}</p>
 
               <span>
@@ -111,6 +112,7 @@ const Movie = ({
             </>
           )}
         </AnimatePresence>
+        </div>
       </div>
       <div className="a mobile">
         <button onClick={handleMovieClick}>
