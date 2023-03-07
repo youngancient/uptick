@@ -27,14 +27,22 @@ const genres = {
   10752: { name: "War" },
   37: { name: "Western" },
 };
-const MovieList = ({ display, setDisplay, search, isFilterDate,isFilterGenre,filterDate,filterGenre }) => {
+const MovieList = ({
+  display,
+  setDisplay,
+  search,
+  isFilterDate,
+  isFilterGenre,
+  filterDate,
+  filterGenre,
+}) => {
   const [movies, setMovies] = useState([]);
   function generateRandomLetter() {
-    const alphabet = "abcdefghijklmnopqrstuvwxyz"
-    return alphabet[Math.floor(Math.random() * alphabet.length)]
+    const alphabet = "abcdefghijklmnopqrstuvwxyz";
+    return alphabet[Math.floor(Math.random() * alphabet.length)];
   }
-  if(search.isSearch){
-    useEffect(() => {
+  useEffect(() => {
+    if (search.isSearch) {
       axios
         .get(
           `https://api.themoviedb.org/3/search/movie?api_key=bdb240741c8f4165f5d6af9277692339&query=${search.q}`
@@ -45,9 +53,7 @@ const MovieList = ({ display, setDisplay, search, isFilterDate,isFilterGenre,fil
         .catch((err) => {
           console.log(err);
         });
-    }, [search.q]);
-  }else{
-    useEffect(() => {
+    } else {
       axios
         .get(
           `https://api.themoviedb.org/3/search/movie?api_key=bdb240741c8f4165f5d6af9277692339&query=${generateRandomLetter()}`
@@ -58,30 +64,32 @@ const MovieList = ({ display, setDisplay, search, isFilterDate,isFilterGenre,fil
         .catch((err) => {
           console.log(err);
         });
-    }, [search.q]);
-  }
+    }
+  }, [search.q]);
 
   // this handles filtering via checkboxes, it gets the selected checkboxes in an array filterGenre
   // it filters the movies-statebased on the checkboxes.
   // backupmovie state is used to back up the movie state
-  
-  useEffect(()=>{
-    if(filterGenre.length !== 0){
-      const filterMovies = movies.filter((item) =>{
-        return filterGenre.every(elem => item.genre_ids.includes(elem) === true)
-      })
+
+  useEffect(() => {
+    if (filterGenre.length !== 0) {
+      const filterMovies = movies.filter((item) => {
+        return filterGenre.every(
+          (elem) => item.genre_ids.includes(elem) === true
+        );
+      });
       setMovies(filterMovies);
     }
-  },[filterGenre])
+  }, [filterGenre]);
 
-  useEffect(()=>{
-    if(filterDate !== undefined){
-      const filterMovies = movies.filter((item) =>{
+  useEffect(() => {
+    if (filterDate !== undefined) {
+      const filterMovies = movies.filter((item) => {
         return item.release_date == filterDate;
       });
       setMovies(filterMovies);
     }
-  },[filterDate])
+  }, [filterDate]);
 
   const handleGenre = (genre_ids) => {
     let li = "";
@@ -96,29 +104,26 @@ const MovieList = ({ display, setDisplay, search, isFilterDate,isFilterGenre,fil
   };
   return (
     <>
-    <AnimatePresence>
-      {
-      movies.length == 0 && search.isSearch
-      ?
-        <Empty q={search.q} key="empty" />
-      :
-        movies.map((movie) => (
-        <Movie
-          title={movie.title}
-          genre_ids={movie.genre_ids}
-          genre={handleGenre(movie.genre_ids)}
-          imgSrc={movie.poster_path}
-          key={movie.id}
-          alt={movie.title}
-          details={movie.overview}
-          date={movie.release_date}
-          setDisplay={setDisplay}
-          data={movie}
-          display={display}
-        />
-      ))
-      
-      }
+      <AnimatePresence>
+        {movies.length == 0 && search.isSearch ? (
+          <Empty q={search.q} key="empty" />
+        ) : (
+          movies.map((movie) => (
+            <Movie
+              title={movie.title}
+              genre_ids={movie.genre_ids}
+              genre={handleGenre(movie.genre_ids)}
+              imgSrc={movie.poster_path}
+              key={movie.id}
+              alt={movie.title}
+              details={movie.overview}
+              date={movie.release_date}
+              setDisplay={setDisplay}
+              data={movie}
+              display={display}
+            />
+          ))
+        )}
       </AnimatePresence>
     </>
   );
