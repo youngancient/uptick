@@ -6,5 +6,25 @@
 .checkbox input{
     margin-left: 0.5rem;
     cursor: pointer;
-    accent-color: #ce5604;
+}
+.checkbox div label{
+    margin-top: 8px;
+    display: flex;
+}
+
+.group{
+    display: flex;
+    flex-direction: column;
+}
+.group span{
+    color: #fff;
+}
+
+@media screen and (min-width: 728px) {
+    .group span{
+        color: #023849;
+    }
+}
+@media screen and (min-width: 998px) {
+    
 }

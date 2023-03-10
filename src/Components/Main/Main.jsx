@@ -5,28 +5,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import Display from "../Display/Display";
 import MovieList from "./MovieList";
 import Date from "./Date";
+import MyCheckbox from "../Checkbox/Checkbox";
+import SearchInput from "./SearchInput";
 
-const checkBoxes = [
-  { id: 28, name: "Action" },
-  { id: 12, name: "Adventure" },
-  { id: 16, name: "Animation" },
-  { id: 35, name: "Comedy" },
-  { id: 80, name: "Crime" },
-  { id: 99, name: "Documentary" },
-  { id: 18, name: "Drama" },
-  { id: 10751, name: "Family" },
-  { id: 14, name: "Fantasy" },
-  { id: 36, name: "History" },
-  { id: 27, name: "Horror" },
-  { id: 10402, name: "Music" },
-  { id: 9648, name: "Mystery" },
-  { id: 10749, name: "Romance" },
-  { id: 878, name: "SciFi" },
-  { id: 10770, name: "TV Movie" },
-  { id: 53, name: "Thriller" },
-  { id: 10752, name: "War" },
-  { id: 37, name: "Western" },
-];
 
 const dropVariants = {
   initial: {
@@ -123,20 +104,28 @@ const actualVariants = {
   },
 };
 const Main = () => {
+  // the movies displayed
+  //  readable and writable
+  const [movies, setMovies] = useState([]);
+  // readable movies but writable by the search filter
+  const [duplicateMovies, setDuplicateMovies] = useState([]);
+
   // for dropdowns
   const [clickGenre, setClickGenre] = useState(false);
   const [clickRelease, setClickRelease] = useState(false);
-  // for mobile
+  // for mobile dropdown
   const [mClickGenre, mSetClickGenre] = useState(false);
   const [mClickRelease, mSetClickRelease] = useState(false);
   const [clickFilter, setFilter] = useState(false);
-  
 
-  const [filterGenre, setFilterGenre] = useState([]);
-  const [filterDate, setFilterDate] = useState();
-  const [isFilterGenre, setIsFilterGenre] = useState(false);
-  const [isFilterDate, setIsFilterDate] = useState(false);
+  // state to connect the three filters
+  const [search, setSearch] = useState({
+    q: "",
+    isSearch: false,
+  });
 
+
+  // handle popping up of the mobile genre and date filter
   const handleGenre = () => {
     setClickGenre(!clickGenre);
     mSetClickGenre(!mClickGenre);
@@ -145,6 +134,8 @@ const Main = () => {
     setClickRelease(!clickRelease);
     mSetClickRelease(!mClickRelease);
   };
+
+  // handle popping up of the mobile filters
   const handleFilter = () => {
     setFilter(!clickFilter);
   };
@@ -161,25 +152,6 @@ const Main = () => {
     isClicked: false,
   });
 
-  // state for search input
-  const [search, setSearch] = useState({
-    q: "",
-    isSearch: false,
-  });
-  const handleSearch = (event) => {
-    let query = event.target.value.trim();
-    if (query == "") {
-      setSearch({
-        q: query,
-        isSearch: false,
-      });
-    } else {
-      setSearch({
-        q: query,
-        isSearch: true,
-      });
-    }
-  };
 
   let genreRef = useRef();
   let dateRef = useRef();
@@ -201,7 +173,6 @@ const Main = () => {
           setFilter(false);
           mSetClickGenre(false);
           mSetClickRelease(false);
-          // setFilterGenre([]);
         }
       }
     };
@@ -246,15 +217,11 @@ const Main = () => {
                     exit="exit"
                     ref={genreRef}
                   >
-                    {checkBoxes.map((checkbox) => (
-                      <Checkbox
-                        key={checkbox.id}
-                        name={checkbox.name}
-                        value={checkbox.id}
-                        setFilterGenre ={setFilterGenre}
-                        filterGenre = {filterGenre}
-                      />
-                    ))}
+                    <MyCheckbox
+                      movies={movies}
+                      setMovies={setMovies}
+                      duplicateMovies={duplicateMovies}
+                    />
                   </motion.ul>
                 ) : (
                   <></>
@@ -275,7 +242,6 @@ const Main = () => {
                   variants={dropSvgVariants}
                   initial="initial"
                   animate={clickRelease ? "final" : ""}
-                  
                 >
                   <path
                     d="M19.92 8.95L13.4 15.47C12.63 16.24 11.37 16.24 10.6 15.47L4.08002 8.95"
@@ -298,7 +264,11 @@ const Main = () => {
                     ref={dateRef}
                   >
                     <li>
-                      <Date setFilterDate={setFilterDate} filterDate={filterDate} />
+                      <Date
+                        movies={movies}
+                        setMovies={setMovies}
+                        duplicateMovies={duplicateMovies}
+                      />
                     </li>
                   </motion.ul>
                 ) : (
@@ -332,14 +302,12 @@ const Main = () => {
                 />
               </g>
             </svg>
-
-            <input
-              type="text"
-              name="input"
-              id=""
-              placeholder="Search for a movie, genre, tv shows..."
-              onChange={handleSearch}
-              onKeyUp={handleSearch}
+            <SearchInput
+              search={search}
+              setSearch={setSearch}
+              movies={movies}
+              setMovies={setMovies}
+              setDuplicateMovies={setDuplicateMovies}
             />
           </div>
           <div className="desktop-btn desktop">
@@ -423,7 +391,11 @@ const Main = () => {
                         >
                           <ul>
                             <li>
-                            <Date filterDate={filterDate} setFilterDate={setFilterDate} />
+                              <Date
+                                movies={movies}
+                                setMovies={setMovies}
+                                duplicateMovies={duplicateMovies}
+                              />
                             </li>
                           </ul>
                         </motion.div>
@@ -466,17 +438,11 @@ const Main = () => {
                           exit="exit"
                         >
                           <ul>
-                            {checkBoxes.map((checkbox) => (
-                              <Checkbox
-                                key={checkbox.id}
-                                name={checkbox.name}
-                                value={checkbox.id}
-                                setFilterGenre ={setFilterGenre}
-                                filterGenre = {filterGenre}
-                                isFilterGenre = {isFilterGenre}
-                                setIsFilterGenre = {setIsFilterGenre}
-                              />
-                            ))}
+                            <MyCheckbox
+                              movies={movies}
+                              setMovies={setMovies}
+                              duplicateMovies={duplicateMovies}
+                            />
                           </ul>
                         </motion.div>
                       ) : (
@@ -497,10 +463,9 @@ const Main = () => {
               display={display}
               setDisplay={setDisplay}
               search={search}
-              isFilterGenre={isFilterGenre}
-              isFilterDate={isFilterDate}
-              filterGenre={filterGenre}
-              filterDate={filterDate}
+              movies={movies}
+              setMovies={setMovies}
+              setDuplicateMovies={setDuplicateMovies}
             />
           </div>
           <div className="single-display desktop">

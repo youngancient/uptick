@@ -1,14 +1,25 @@
+import { DatePicker } from "antd";
 
+const Date = ({ movies, setMovies, duplicateMovies }) => {
 
-const Date = ({filterDate, setFilterDate}) => {
-    const handleSelect =(e)=>{
-        let date = e.target.value;
-        setFilterDate(date);
-        
+  const handleSelect = (date, dateString) => {
+    if(dateString !== ""){
+        const filterMovies = movies.filter((item) => {
+            return item.release_date == dateString;
+          });
+          setMovies(filterMovies)
+    }else{
+        setMovies(duplicateMovies);
     }
-    return ( 
-        <input type="date" name="release" id="" onChange={handleSelect} />
-     );
-}
- 
+  };
+  return (
+    <DatePicker
+      onChange={handleSelect}
+      getPopupContainer={(triggerNode) => {
+        return triggerNode.parentNode;
+      }}
+    />
+  );
+};
+
 export default Date;

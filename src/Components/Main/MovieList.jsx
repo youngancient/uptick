@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+
 import Movie from "../Movie/Movie";
-import axios from "axios";
 import Empty from "../Empty/Empty";
 import { AnimatePresence } from "framer-motion";
 
@@ -31,66 +30,11 @@ const MovieList = ({
   display,
   setDisplay,
   search,
-  isFilterDate,
-  isFilterGenre,
-  filterDate,
-  filterGenre,
+  movies,
 }) => {
-  const [movies, setMovies] = useState([]);
-  function generateRandomLetter() {
-    const alphabet = "abcdefghijklmnopqrstuvwxyz";
-    return alphabet[Math.floor(Math.random() * alphabet.length)];
-  }
-  useEffect(() => {
-    if (search.isSearch) {
-      axios
-        .get(
-          `https://api.themoviedb.org/3/search/movie?api_key=bdb240741c8f4165f5d6af9277692339&query=${search.q}`
-        )
-        .then((res) => {
-          setMovies(res.data.results);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      axios
-        .get(
-          `https://api.themoviedb.org/3/search/movie?api_key=bdb240741c8f4165f5d6af9277692339&query=${generateRandomLetter()}`
-        )
-        .then((res) => {
-          setMovies(res.data.results);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [search.q]);
 
-  // this handles filtering via checkboxes, it gets the selected checkboxes in an array filterGenre
-  // it filters the movies-statebased on the checkboxes.
-  // backupmovie state is used to back up the movie state
 
-  useEffect(() => {
-    if (filterGenre.length !== 0) {
-      const filterMovies = movies.filter((item) => {
-        return filterGenre.every(
-          (elem) => item.genre_ids.includes(elem) === true
-        );
-      });
-      setMovies(filterMovies);
-    }
-  }, [filterGenre]);
-
-  useEffect(() => {
-    if (filterDate !== undefined) {
-      const filterMovies = movies.filter((item) => {
-        return item.release_date == filterDate;
-      });
-      setMovies(filterMovies);
-    }
-  }, [filterDate]);
-
+  // This converts the genre array into genre strings
   const handleGenre = (genre_ids) => {
     let li = "";
     let n = genre_ids.length;

@@ -1,52 +1,119 @@
 import { useEffect, useRef, useState } from "react";
 import "./style.css";
-const Checkbox = ({
-  name,
-  value,
-  filterGenre,
-  setFilterGenre,
-  isFilterGenre,
-  setIsFilterGenre,
-}) => {
-  // const checkRef = useRef();
+import { Checkbox } from "antd";
 
-  const [checked, setChecked] = useState(true);
-  const count =(array)=>{
-    return array.length;
-  }
+const options = [
+  {
+    label: "Action",
+    value: 28,
+  },
+  {
+    label: "Adventure",
+    value: 12,
+  },
+  {
+    label: "Animation",
+    value: 16,
+  },
+  {
+    label: "Comedy",
+    value: 35,
+  },
+  {
+    label: "Crime",
+    value: 80,
+  },
+  {
+    label: "Documentary",
+    value: 99,
+  },
+  {
+    label: "Drama",
+    value: 18,
+  },
+  {
+    label: "Family",
+    value: 10751,
+  },
+  {
+    label: "Fantasy",
+    value: 14,
+  },
+  {
+    label: "History",
+    value: 36,
+  },
+  {
+    label: "Horror",
+    value: 27,
+  },
+  {
+    label: "Music",
+    value: 10402,
+  },
+  {
+    label: "Mystery",
+    value: 9648,
+  },
+  {
+    label: "Romance",
+    value: 10749,
+  },
+  {
+    label: "SciFi",
+    value: 878,
+  },
+  {
+    label: "TV Movie",
+    value: 10770,
+  },
+  {
+    label: "Thriller",
+    value: 53,
+  },
+  {
+    label: "War",
+    value: 10752,
+  },
+  {
+    label: "Western",
+    value: 37,
+  },
+];
+
+const MyCheckbox = ({
+  duplicateMovies,
+  movies,
+  setMovies,
+}) => {
+
   // This handles the clicking of the checkboxes
-  // it updates the check state and updates the array of selected genre - filterGenre
-  const handleSelect = (e) => {
-    let c = parseInt(e.target.value);
-    if (checked == true) {
-      setFilterGenre([...filterGenre, c]);
+ // this handles filtering via checkboxes, it gets the selected checkboxes 
+  // it filters the movies-statebased on the checkboxes.
+  // backupmovie state is used to back up the movie state
+
+  const handleSelect = (checkedValues) => {
+    if (checkedValues && checkedValues.length !== 0) {
+      console.log(checkedValues);
+      const filterMovies = movies.filter((movie) => {
+        return checkedValues.every(
+          (elem) => movie.genre_ids.includes(elem) === true
+        );
+      });
+      setMovies(filterMovies);
     } else {
-      setFilterGenre(
-        filterGenre.filter(function (gen) {
-          return gen !== c;
-        })
-      );
+      setMovies(duplicateMovies);
     }
-    if(count(filterGenre) == 0){
-      setIsFilterGenre(false);
-    }else{
-      setIsFilterGenre(true);
-    }
-    setChecked(!checked);
-    // console.log(filterGenre, count(filterGenre));
   };
   return (
     <div className="checkbox">
-      <label htmlFor={name} className="">{name}</label>
-      <input
-        type="checkbox"
-        name={name}
-        id=""
-        value={value}
+      <Checkbox.Group
+        options={options}
         onChange={handleSelect}
+        className="group"
       />
     </div>
   );
 };
 
-export default Checkbox;
+export default MyCheckbox;
