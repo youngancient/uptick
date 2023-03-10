@@ -41,7 +41,6 @@ const SearchInput = ({
           console.log(err);
         });
     } else {
-      console.log("ewo");
       axios
         .get(
           `https://api.themoviedb.org/3/search/movie?api_key=bdb240741c8f4165f5d6af9277692339&query=${generateRandomLetter()}`
