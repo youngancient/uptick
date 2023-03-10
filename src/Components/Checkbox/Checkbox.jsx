@@ -86,7 +86,7 @@ const MyCheckbox = ({
   movies,
   setMovies,
 }) => {
-
+  // const [checkboxMovies, setCheckboxMovies] = useState()
   // This handles the clicking of the checkboxes
  // this handles filtering via checkboxes, it gets the selected checkboxes 
   // it filters the movies-statebased on the checkboxes.
@@ -94,8 +94,9 @@ const MyCheckbox = ({
 
   const handleSelect = (checkedValues) => {
     if (checkedValues && checkedValues.length !== 0) {
-      console.log(checkedValues);
-      const filterMovies = movies.filter((movie) => {
+      
+      // filter the duplicated movies state and update the movies
+      const filterMovies = duplicateMovies.filter((movie) => {
         return checkedValues.every(
           (elem) => movie.genre_ids.includes(elem) === true
         );

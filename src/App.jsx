@@ -16,7 +16,7 @@ const loaderVariant = {
 };
 
 function App() {
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     setTimeout(() => {
