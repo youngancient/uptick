@@ -26,9 +26,11 @@ const detailsVariants = {
 const mVariants = {
   initial: {
     opacity: 0,
+    scale : 0.9,
   },
   final: {
     opacity: 1,
+    scale : 1,
     transition: {
       duration: 1,
     },
@@ -53,7 +55,7 @@ const Movie = ({
   const desktopClick = () => {
     setDisplay(data);
     setDisplay({ ...data, ["isClicked"]: true, ["genre"]: genre });
-    // console.log(genre_ids);
+
   };
   const truncate = (str, num) => {
     return str.length > num ? str.substring(0, num) + "..." : str;
@@ -64,7 +66,8 @@ const Movie = ({
       onClick={desktopClick}
       variants={mVariants}
       initial="initial"
-      animate="final"
+      whileInView="final"
+      viewport={{once : true}}
     >
       <div className="movie">
         <div className="img">

@@ -1,4 +1,3 @@
-
 import Movie from "../Movie/Movie";
 import Empty from "../Empty/Empty";
 import { AnimatePresence } from "framer-motion";
@@ -26,14 +25,7 @@ const genres = {
   10752: { name: "War" },
   37: { name: "Western" },
 };
-const MovieList = ({
-  display,
-  setDisplay,
-  search,
-  movies,
-}) => {
-
-
+const MovieList = ({ display, setDisplay, search, movies }) => {
   // This converts the genre array into genre strings
   const handleGenre = (genre_ids) => {
     let li = "";
@@ -49,9 +41,10 @@ const MovieList = ({
   return (
     <>
       <AnimatePresence>
-        {movies.length == 0 && search.isSearch ? (
+        {movies.length == 0 && (
           <Empty q={search.q} key="empty" />
-        ) : (
+        )}
+        {movies &&
           movies.map((movie) => (
             <Movie
               title={movie.title}
@@ -66,8 +59,7 @@ const MovieList = ({
               data={movie}
               display={display}
             />
-          ))
-        )}
+          ))}
       </AnimatePresence>
     </>
   );
